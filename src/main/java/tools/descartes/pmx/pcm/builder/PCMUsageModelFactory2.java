@@ -1,29 +1,3 @@
-/**
- * ==============================================
- *  PMX : Performance Model eXtractor
- * ==============================================
- *
- * (c) Copyright 2014-2015, by Juergen Walter and Contributors.
- *
- * Project Info:   http://descartes.tools/pmx
- *
- * All rights reserved. This software is made available under the terms of the
- * Eclipse Public License (EPL) v1.0 as published by the Eclipse Foundation
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * This software is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the Eclipse Public License (EPL)
- * for more details.
- *
- * You should have received a copy of the Eclipse Public License (EPL)
- * along with this software; if not visit http://www.eclipse.org or write to
- * Eclipse Foundation, Inc., 308 SW First Avenue, Suite 110, Portland, 97204 USA
- * Email: license (at) eclipse.org
- *
- * [Java is a trademark or registered trademark of Sun Microsystems, Inc.
- * in the United States and other countries.]
- */
 package tools.descartes.pmx.pcm.builder;
 
 import java.io.IOException;
@@ -93,7 +67,7 @@ public class PCMUsageModelFactory2 {
 		double duration = (endMax - startMin) / 1000000000;
 		log.info(" === durartion === " + duration);
 
-		List<Double> list = new ArrayList<Double>(map.keySet());
+		List<Double> list = new ArrayList<>(map.keySet());
 		Collections.sort(list);
 		log.info(" === message chain ===");
 		// EntryLevelSystemCall current =
@@ -166,7 +140,7 @@ public class PCMUsageModelFactory2 {
 		usageScenario.setWorkload_UsageScenario(workload);
 	}
 
-	public static final EntryLevelSystemCall addSystemUserCallAction(OperationSignature signature,
+	public static EntryLevelSystemCall addSystemUserCallAction(OperationSignature signature,
 			OperationProvidedRole role,
 			ScenarioBehaviour scenarioBehavior, String id) {
 		EntryLevelSystemCall systemCall = UsagemodelFactory.eINSTANCE.createEntryLevelSystemCall();
@@ -179,7 +153,7 @@ public class PCMUsageModelFactory2 {
 	}
 
 	
-	public static final UsageScenario addUsageScenario(UsageModel usageModel, String name) {
+	public static UsageScenario addUsageScenario(UsageModel usageModel, String name) {
 		final UsageScenario usageScenario = UsagemodelFactory.eINSTANCE
 				.createUsageScenario();
 		usageScenario.setEntityName(name);
@@ -188,24 +162,7 @@ public class PCMUsageModelFactory2 {
 		return usageScenario;
 	}
 
-	// public static final UsageScenario addUsageScenario(UsageModel usageModel,
-	// OperationSignature signature, OperationProvidedRole role){
-	// final UsageScenario usageScenario = UsagemodelFactory.eINSTANCE
-	// .createUsageScenario();
-	// usageScenario.setEntityName("extractedBehavior_"+role.getEntityName());
-	// usageModel.getUsageScenario_UsageModel().add(usageScenario);
-	//
-	// final ScenarioBehaviour scenarioBehaviour =
-	// createSimpleScenarioBehaviour(signature, role);
-	// usageScenario.setScenarioBehaviour_UsageScenario(scenarioBehaviour);
-	//
-	// final Workload workload = createClosedWorkload(1);
-	// workload.setUsageScenario_Workload(usageScenario);
-	// return usageScenario;
-	// }
-
-
-	public static final OpenWorkload createOpenWorkload(double interArrivalTime) {
+	public static OpenWorkload createOpenWorkload(double interArrivalTime) {
 		OpenWorkload wl = UsagemodelFactory.eINSTANCE.createOpenWorkload();
 		PCMRandomVariable interArrival = CoreFactory.eINSTANCE.createPCMRandomVariable();
 		interArrival.setSpecification("" + interArrivalTime);
@@ -213,7 +170,7 @@ public class PCMUsageModelFactory2 {
 		return wl;
 	}
 
-	public static final ClosedWorkload createClosedWorkload(int population) {
+	public static ClosedWorkload createClosedWorkload(int population) {
 		ClosedWorkload workload = UsagemodelFactory.eINSTANCE
 				.createClosedWorkload();
 
@@ -226,7 +183,7 @@ public class PCMUsageModelFactory2 {
 		return workload;
 	}
 
-	private static final ScenarioBehaviour createScenarioBehaviour(CMBG cmbg) {
+	private static ScenarioBehaviour createScenarioBehaviour(CMBG cmbg) {
 		final ScenarioBehaviour scenarioBehaviour = UsagemodelFactory.eINSTANCE
 				.createScenarioBehaviour();
 		scenarioBehaviour.setEntityName("DefaultScenario");
@@ -249,37 +206,6 @@ public class PCMUsageModelFactory2 {
 		return scenarioBehaviour;
 	}
 	
-	// public static final ScenarioBehaviour
-	// createSimpleScenarioBehaviour(OperationSignature signature,
-	// OperationProvidedRole role) {
-	// final ScenarioBehaviour scenarioBehaviour = UsagemodelFactory.eINSTANCE
-	// .createScenarioBehaviour();
-	// scenarioBehaviour.setEntityName(signature.getEntityName()+"Scenario");
-	//
-	// // create start, stop and branch element
-	// Start start = UsagemodelFactory.eINSTANCE.createStart();
-	// Stop stop = UsagemodelFactory.eINSTANCE.createStop();
-	//
-	// EntryLevelSystemCall systemCall =
-	// UsagemodelFactory.eINSTANCE.createEntryLevelSystemCall();
-	// String name = signature.getEntityName();//"main";
-	// systemCall.setEntityName(name);
-	// systemCall.setOperationSignature__EntryLevelSystemCall(signature);
-	// systemCall.setProvidedRole_EntryLevelSystemCall(role);
-	//
-	// // add elements to ScenarioBehaviour
-	// start.setScenarioBehaviour_AbstractUserAction(scenarioBehaviour);
-	// stop.setScenarioBehaviour_AbstractUserAction(scenarioBehaviour);
-	// systemCall.setScenarioBehaviour_AbstractUserAction(scenarioBehaviour);
-	//
-	// // connect Elements
-	// start.setSuccessor(systemCall);
-	// systemCall.setPredecessor(start);
-	// systemCall.setSuccessor(stop);
-	// stop.setPredecessor(systemCall);
-	// return scenarioBehaviour;
-	// }
-
 	/**
 	 * Create new branch. Each Transition within this branch is a separate
 	 * behaviorModel.

@@ -56,38 +56,28 @@
             <artifactId>pmxupgrade</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>cdo</artifactId>
             <version>4.2.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.eclipse.ocl</groupId>
             <artifactId>ecore</artifactId>
             <version>3.3.0</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.antlr/antlr-runtime -->
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr-runtime</artifactId>
             <version>3.5.2</version>
         </dependency>
 
-
-
-
-
-
-
         <dependency>
             <groupId>org.palladiosimulator.pcm</groupId>
             <artifactId>pcm</artifactId>
             <version>4.3.0.202006280807</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/org.palladiosimulator.pcm_4.3.0.202006280807.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.pcm_4.3.0.202006280807.jar
             </systemPath>
         </dependency>
 
@@ -96,7 +86,7 @@
             <artifactId>stoex</artifactId>
             <version>2.2.0.201611171324</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/de.uka.ipd.sdq.stoex_2.2.0.201611171324.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/de.uka.ipd.sdq.stoex_2.2.0.201611171324.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -104,7 +94,7 @@
             <artifactId>identifier</artifactId>
             <version>2.1.0.201611171324</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/de.uka.ipd.sdq.identifier_2.1.0.201611171324.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/de.uka.ipd.sdq.identifier_2.1.0.201611171324.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -112,7 +102,7 @@
             <artifactId>errorhandling</artifactId>
             <version>1.0.0.201611171324</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/de.uka.ipd.sdq.errorhandling_1.0.0.201611171324.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/de.uka.ipd.sdq.errorhandling_1.0.0.201611171324.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -120,7 +110,7 @@
             <artifactId>probfunction</artifactId>
             <version>2.1.1.201611171324</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/de.uka.ipd.sdq.probfunction_2.1.1.201611171324.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/de.uka.ipd.sdq.probfunction_2.1.1.201611171324.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -128,7 +118,7 @@
             <artifactId>units</artifactId>
             <version>2.1.1.201611171324</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/de.uka.ipd.sdq.units_2.1.1.201611171324.jar
+            <systemPath>${project.basedir}/src/main/resources/lib/de.uka.ipd.sdq.units_2.1.1.201611171324.jar
             </systemPath>
         </dependency>
     </dependencies>
