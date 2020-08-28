@@ -153,8 +153,8 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
 
         Resource resource;
 
-        resource = resourceSet.createResource(URI.createFileURI("Palladio.resourcetype"));
-        resource = resourceSet.getResource(URI.createFileURI("Palladio.resourcetype"), true);
+        resource = resourceSet.createResource(URI.createFileURI("src/main/resources/Palladio.resourcetype"));
+        resource = resourceSet.getResource(URI.createFileURI("src/main/resources/Palladio.resourcetype"), true);
 
         try {
             InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("Palladio.resourcetype");

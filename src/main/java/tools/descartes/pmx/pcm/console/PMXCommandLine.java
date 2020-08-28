@@ -111,7 +111,7 @@ public class PMXCommandLine {
 																// // for debug
 
 			configuration.setNumCores(getNumberOfCores());
-			configuration.setInputFileName("C:\\Users\\ptreyer\\Desktop\\resources\\json\\combination3.json");
+			configuration.setInputFileName("C:\\Users\\ptreyer\\Desktop\\resources\\json\\combination4.json");
 			configuration.setOutputDirectory("C:\\Users\\ptreyer\\Desktop\\resources");
 			
 			PMXController controller = null;
