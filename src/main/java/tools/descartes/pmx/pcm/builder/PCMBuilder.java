@@ -3,12 +3,7 @@ package tools.descartes.pmx.pcm.builder;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
@@ -122,8 +117,11 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
         m.put("repository", new XMIResourceFactoryImpl()); // file ending
         Resource resource;
 
-        resource = resourceSet.createResource(URI.createFileURI("src/main/resources/repository/PrimitiveTypes.repository"));
-        resource = resourceSet.getResource(URI.createFileURI("src/main/resources/repository/PrimitiveTypes.repository"), true);
+       // resource = resourceSet.createResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"));
+       // resource = resourceSet.getResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"), true);
+
+        resource = resourceSet.createResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"));
+        resource = resourceSet.getResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"), true);
 
         try {
             InputStream inputStream = getClass().getResourceAsStream("PrimitiveTypes.repository");
@@ -155,11 +153,11 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
 
         Resource resource;
 
-        resource = resourceSet.createResource(URI.createFileURI("src/main/resources/repository/Palladio.resourcetype"));
-        resource = resourceSet.getResource(URI.createFileURI("src/main/resources/repository/Palladio.resourcetype"), true);
+        resource = resourceSet.createResource(URI.createFileURI("Palladio.resourcetype"));
+        resource = resourceSet.getResource(URI.createFileURI("Palladio.resourcetype"), true);
 
         try {
-            InputStream inputStream = getClass().getResourceAsStream("Palladio.resourcetype");
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("Palladio.resourcetype");
             resource.load(inputStream, Collections.EMPTY_MAP);
             resourceRepository = (ResourceRepository) resource.getContents().get(0);
         } catch (IOException e) {
@@ -423,10 +421,20 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
             resourceRepository.getSchedulingPolicies__ResourceRepository().add(sched);
         }
 
+        //for (ResourceType type : resourceRepository.getAvailableResourceTypes_ResourceRepository()) {
+            ProcessingResourceType type1 = (ProcessingResourceType) resourceRepository.getAvailableResourceTypes_ResourceRepository().get(0);
+            System.out.println("XXXX: " + type1.getEntityName());
+        //}
+
         ResourceType cpuResourceType = resourceRepository.getAvailableResourceTypes_ResourceRepository().get(0);
         ProcessingResourceSpecification cpu = ResourceenvironmentFactory.eINSTANCE
                 .createProcessingResourceSpecification();
         cpu.setActiveResourceType_ActiveResourceSpecification((ProcessingResourceType) cpuResourceType);
+
+        SchedulingPolicy processorSharing2 =  resourceRepository.getSchedulingPolicies__ResourceRepository().get(0);
+        System.out.println("YYYY: " + processorSharing2.getEntityName());
+
+
         SchedulingPolicy processorSharing = resourceRepository.getSchedulingPolicies__ResourceRepository().get(0);
         cpu.setSchedulingPolicy(processorSharing);
         PCMRandomVariable processingRate = CoreFactory.eINSTANCE.createPCMRandomVariable();
