@@ -97,7 +97,7 @@ public class PMXCommandLine {
 			
 			//String[] inputDirs = getInputDirs();
 			
-			String outputDir= "C:\\Users\\ptreyer\\Desktop\\resource";
+			String outputDir= "C:\\Users\\ptreyer\\Desktop\\resources";
 					
 			//String outputDir = commandLine.getOptionValue(CMD_LONG_OPT_OUTPUT_DIR);
 			//if (outputDir == null) {
@@ -112,7 +112,7 @@ public class PMXCommandLine {
 
 			configuration.setNumCores(getNumberOfCores());
 			configuration.setInputFileName("C:\\Users\\ptreyer\\Desktop\\resources\\json\\combination4.json");
-			configuration.setOutputDirectory("C:\\Users\\ptreyer\\Desktop\\resources");
+			configuration.setOutputDirectory("C:\\Users\\ptreyer\\Desktop\\resources\\");
 			
 			PMXController controller = null;
 			try {

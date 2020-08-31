@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.*;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -63,6 +64,7 @@ import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
 import de.kit.research.model.systemmodel.component.ComponentType;
 import de.kit.research.model.systemmodel.trace.ExternalCall;
 import de.kit.research.model.systemmodel.util.Signature;
+import tools.descartes.pmx.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 import tools.descartes.pmx.pcm.builder.persistance.PCMEMF;
 
 public class PCMBuilder extends ModelBuilder implements IModelBuilder {
@@ -305,6 +307,10 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
     }
 
     public void saveToFile(String path) {
+
+        MeasuringFileExporterService service = new MeasuringFileExporterService();
+        service.createMeasuringPointFile(path, usage, resourceenvironment, resourceRepository);
+
         PCMEMF.saveAll();
     }
 
