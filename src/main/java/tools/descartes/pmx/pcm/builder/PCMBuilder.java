@@ -421,19 +421,10 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
             resourceRepository.getSchedulingPolicies__ResourceRepository().add(sched);
         }
 
-        //for (ResourceType type : resourceRepository.getAvailableResourceTypes_ResourceRepository()) {
-            ProcessingResourceType type1 = (ProcessingResourceType) resourceRepository.getAvailableResourceTypes_ResourceRepository().get(0);
-            System.out.println("XXXX: " + type1.getEntityName());
-        //}
-
         ResourceType cpuResourceType = resourceRepository.getAvailableResourceTypes_ResourceRepository().get(0);
         ProcessingResourceSpecification cpu = ResourceenvironmentFactory.eINSTANCE
                 .createProcessingResourceSpecification();
         cpu.setActiveResourceType_ActiveResourceSpecification((ProcessingResourceType) cpuResourceType);
-
-        SchedulingPolicy processorSharing2 =  resourceRepository.getSchedulingPolicies__ResourceRepository().get(0);
-        System.out.println("YYYY: " + processorSharing2.getEntityName());
-
 
         SchedulingPolicy processorSharing = resourceRepository.getSchedulingPolicies__ResourceRepository().get(0);
         cpu.setSchedulingPolicy(processorSharing);
