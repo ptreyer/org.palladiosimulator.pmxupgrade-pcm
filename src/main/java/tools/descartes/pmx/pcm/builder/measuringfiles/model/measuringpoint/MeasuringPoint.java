@@ -10,12 +10,10 @@ public class MeasuringPoint {
 
     public static final String PCMMEASURINGPOINT_UC = "pcmmeasuringpoint:UsageScenarioMeasuringPoint";
     public static final String PCMMEASURINGPOINT_AR = "pcmmeasuringpoint:ActiveResourceMeasuringPoint";
-    // TODO
-    public static final String PCMMEASURINGPOINT_EC = "pcmmeasuringpoint:ExternalCallMeasuringPoint";
+    public static final String PCMMEASURINGPOINT_EC = "pcmmeasuringpoint:ExternalCallActionMeasuringPoint";
 
     public static final String PCMRESOURCEURI_UC = "platform:/resource/PalladioExtracted/extracted.usagemodel#";
     public static final String PCMRESOURCEURI_AR = "platform:/resource/PalladioExtracted/extracted.resourceenvironment#";
-    // TODO
     public static final String PCMRESOURCEURI_EC = "platform:/resource/PalladioExtracted/extracted.repository#";
 
 
@@ -31,7 +29,6 @@ public class MeasuringPoint {
     @XmlElement(name="usageScenario")
     private MeasuringPointUC measuringPointUC;
 
-    // TODO naming
     @XmlElement(name="externalCall")
     private MeasuringPointEC measuringPointEC;
 

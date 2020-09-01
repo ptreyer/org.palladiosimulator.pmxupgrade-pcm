@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MeasuringPointEC {
 
-    // TODO
     @XmlAttribute(name = "href")
     private String href = "extracted.repository#";
 

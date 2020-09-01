@@ -1,7 +1,5 @@
 package tools.descartes.pmx.pcm.builder.measuringfiles.model.monitorrepository;
 
-import org.palladiosimulator.pcm.core.CoreFactory;
-
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class MonitorRepository {
     private String id = "_j-U0EJfVEea4dum8SWzrBw";
 
     @XmlElement(name = "monitors")
-    private List<Monitors> monitors;
+    private List<Monitor> monitors;
 
     public MonitorRepository() {
         this.id = "_" + UUID.randomUUID().toString().replaceAll("-", "");
@@ -53,14 +51,14 @@ public class MonitorRepository {
         return id;
     }
 
-    public List<Monitors> getMonitors() {
+    public List<Monitor> getMonitors() {
         if (monitors == null) {
             monitors = new ArrayList<>();
         }
         return monitors;
     }
 
-    public void setMonitors(List<Monitors> monitors) {
+    public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 }

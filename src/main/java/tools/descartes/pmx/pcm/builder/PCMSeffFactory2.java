@@ -59,6 +59,7 @@ import de.kit.research.logic.modelcreation.builder.IModelBuilder;
 import de.kit.research.logic.modelcreation.builder.ModelBuilder;
 import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
 import de.kit.research.model.systemmodel.trace.ExternalCall;
+import tools.descartes.pmx.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 
 public class PCMSeffFactory2 {
 	private static final Logger log = Logger.getLogger(PCMSEFFFactory.class);
@@ -297,6 +298,9 @@ public class PCMSeffFactory2 {
 				+ externalCall.getClassName() + ModelBuilder.seperatorChar + component.getEntityName());
 		externalCallAction.setRole_ExternalService(role);
 		seff.getSteps_Behaviour().add(externalCallAction);
+
+		// TODo refactor
+		MeasuringFileExporterService.addExternalCall(externalCallAction);
 
 		return externalCallAction;
 	}

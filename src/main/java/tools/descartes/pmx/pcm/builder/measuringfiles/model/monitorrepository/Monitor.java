@@ -9,7 +9,11 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.UUID;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Monitors {
+public class Monitor {
+
+    public static final String ENTITYNAME_UC = "UsageScenarioMonitor";
+    public static final String ENTITYNAME_AR = "ActiveResourceMonitor";
+    public static final String ENTITYNAME_EC = "ExternalCallActionMonitor";
 
     @XmlAttribute(name="id")
     private String id;
@@ -17,10 +21,13 @@ public class Monitors {
     @XmlAttribute(name="entityName")
     private String entityName;
 
-    @XmlElement(name="measurementSpecification")
+    @XmlElement(name="measurementSpecifications")
     private MeasurementSpecification measurementSpecification;
 
-    public Monitors() {
+    @XmlElement(name="measuringPoint")
+    private MeasuringPointRef measuringPoint;
+
+    public Monitor() {
         this.id = "_" + UUID.randomUUID().toString().replaceAll("-", "");
     }
 
@@ -44,4 +51,11 @@ public class Monitors {
         this.measurementSpecification = measurementSpecification;
     }
 
+    public MeasuringPointRef getMeasuringPoint() {
+        return measuringPoint;
+    }
+
+    public void setMeasuringPoint(MeasuringPointRef measuringPoint) {
+        this.measuringPoint = measuringPoint;
+    }
 }

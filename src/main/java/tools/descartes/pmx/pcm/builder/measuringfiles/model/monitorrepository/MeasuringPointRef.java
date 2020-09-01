@@ -9,10 +9,9 @@ public class MeasuringPointRef {
 
     public static final String PCMMEASURINGPOINT_UC = "pcmmeasuringpoint:UsageScenarioMeasuringPoint";
     public static final String PCMMEASURINGPOINT_AR = "pcmmeasuringpoint:ActiveResourceMeasuringPoint";
-    // TODO
-    public static final String PCMMEASURINGPOINT_EC = "pcmmeasuringpoint:ExternalCallMeasuringPoint";
+    public static final String PCMMEASURINGPOINT_EC = "pcmmeasuringpoint:ExternalCallActionMeasuringPoint";
 
-    public MeasuringPointRef(String id) {
+    public MeasuringPointRef(int id) {
         this.href = href + id;
     }
 

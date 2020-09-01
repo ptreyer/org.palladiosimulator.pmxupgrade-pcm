@@ -5,6 +5,7 @@ import org.palladiosimulator.pcm.core.CoreFactory;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import java.util.UUID;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProcessingType {
@@ -15,8 +16,9 @@ public class ProcessingType {
     @XmlAttribute(name="xsi:type")
     private final String type = "monitorrepository:FeedThrough";
 
+    // TODO id, irgendwo her oder neu?
     public ProcessingType() {
-        this.id = "" + CoreFactory.eINSTANCE.createPCMRandomVariable();
+        this.id = "_" + UUID.randomUUID().toString().replaceAll("-", "");
     }
 
     public String getId() {

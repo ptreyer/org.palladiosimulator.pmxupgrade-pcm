@@ -11,6 +11,7 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MeasurementSpecification {
 
+
     @XmlAttribute(name="id")
     private String id;
 

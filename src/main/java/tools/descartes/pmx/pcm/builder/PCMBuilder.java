@@ -307,9 +307,7 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
     }
 
     public void saveToFile(String path) {
-
-        MeasuringFileExporterService service = new MeasuringFileExporterService();
-        service.createMeasuringPointFile(path, usage, resourceenvironment, resourceRepository);
+        MeasuringFileExporterService.createMeasuringFiles(path, usage, resourceenvironment);
 
         PCMEMF.saveAll();
     }

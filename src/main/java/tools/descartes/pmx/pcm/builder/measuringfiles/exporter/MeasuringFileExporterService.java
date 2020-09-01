@@ -4,14 +4,11 @@ import org.eclipse.emf.common.util.EList;
 import org.palladiosimulator.pcm.resourceenvironment.ProcessingResourceSpecification;
 import org.palladiosimulator.pcm.resourceenvironment.ResourceContainer;
 import org.palladiosimulator.pcm.resourceenvironment.ResourceEnvironment;
-import org.palladiosimulator.pcm.resourcetype.ResourceRepository;
-import org.palladiosimulator.pcm.resourcetype.ResourceType;
+import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.usagemodel.UsageModel;
 import org.palladiosimulator.pcm.usagemodel.UsageScenario;
-import tools.descartes.pmx.pcm.builder.measuringfiles.model.measuringpoint.MeasuringPointRS;
-import tools.descartes.pmx.pcm.builder.measuringfiles.model.measuringpoint.MeasuringPointRepository;
-import tools.descartes.pmx.pcm.builder.measuringfiles.model.measuringpoint.MeasuringPoint;
-import tools.descartes.pmx.pcm.builder.measuringfiles.model.measuringpoint.MeasuringPointUC;
+import tools.descartes.pmx.pcm.builder.measuringfiles.model.measuringpoint.*;
+import tools.descartes.pmx.pcm.builder.measuringfiles.model.monitorrepository.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -22,24 +19,51 @@ import java.util.List;
 
 public class MeasuringFileExporterService {
 
-    public void createMeasuringPointFile(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment, ResourceRepository resourceRepository) {
+    public static List<ExternalCallAction> externalCallActions;
+
+    public static void addExternalCall(ExternalCallAction externalCallAction) {
+        if (externalCallActions == null) {
+            externalCallActions = new ArrayList<>();
+        }
+        externalCallActions.add(externalCallAction);
+
+    }
+
+    public static void createMeasuringFiles(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment) {
         MeasuringPointRepository measuringPointRepository = new MeasuringPointRepository();
 
-        measuringPointRepository.getMeasuringPoints().addAll(extractResources(resourceEnvironment));
-        measuringPointRepository.getMeasuringPoints().addAll(extractUsageScenario(usageModel));
+        List<MeasuringPoint> resources = extractResources(resourceEnvironment);
+        List<MeasuringPoint> usageScenarios = extractUsageScenario(usageModel);
+        List<MeasuringPoint> externalCalls = extractExternalCalls();
+
+        measuringPointRepository.getMeasuringPoints().addAll(resources);
+        measuringPointRepository.getMeasuringPoints().addAll(usageScenarios);
+        measuringPointRepository.getMeasuringPoints().addAll(externalCalls);
+
+        MonitorRepository monitorRepository = new MonitorRepository();
+        monitorRepository.getMonitors().addAll(resolveResources(resources, measuringPointRepository));
+        monitorRepository.getMonitors().addAll(resolveUsageScenarios(usageScenarios, measuringPointRepository));
+        monitorRepository.getMonitors().addAll(resolveExternalCalls(externalCalls, measuringPointRepository));
 
         try {
             JAXBContext jCont = JAXBContext.newInstance(MeasuringPointRepository.class);
             Marshaller marshal = jCont.createMarshaller();
             marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshal.marshal(measuringPointRepository, new File(outputDir + "measuring.measuringpoint"));
+
+            JAXBContext jCont2 = JAXBContext.newInstance(MonitorRepository.class);
+            Marshaller marshal2 = jCont2.createMarshaller();
+            marshal2.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshal2.marshal(monitorRepository, new File(outputDir + "measuring.monitorrepository"));
+
         } catch (JAXBException e) {
             e.printStackTrace();
         }
 
     }
 
-    private List<MeasuringPoint> extractResources(ResourceEnvironment resourceEnvironment) {
+
+    private static List<MeasuringPoint> extractResources(ResourceEnvironment resourceEnvironment) {
         List<MeasuringPoint> result = new ArrayList<>();
 
         EList<ResourceContainer> resourceContainerList = resourceEnvironment.getResourceContainer_ResourceEnvironment();
@@ -59,7 +83,7 @@ public class MeasuringFileExporterService {
         return result;
     }
 
-    private List<MeasuringPoint> extractUsageScenario(UsageModel usageModel) {
+    private static List<MeasuringPoint> extractUsageScenario(UsageModel usageModel) {
         List<MeasuringPoint> result = new ArrayList<>();
 
         EList<UsageScenario> usageScenarios = usageModel.getUsageScenario_UsageModel();
@@ -75,16 +99,77 @@ public class MeasuringFileExporterService {
         return result;
     }
 
-    private List<MeasuringPoint> extractExternalCalls(ResourceRepository resourceRepository) {
+    private static List<MeasuringPoint> extractExternalCalls() {
         List<MeasuringPoint> result = new ArrayList<>();
 
-        EList<ResourceType> resourceTypes = resourceRepository.getAvailableResourceTypes_ResourceRepository();
-        for (ResourceType resourceType : resourceTypes) {
-            //resourceType.
+        for (ExternalCallAction externalCallAction : externalCallActions) {
+            MeasuringPoint measuringPoint = new MeasuringPoint();
+            measuringPoint.setType(MeasuringPoint.PCMMEASURINGPOINT_EC);
+            measuringPoint.setStringRepresentation("External Call: " + externalCallAction.getEntityName() + ": " + externalCallAction.getId());
+            measuringPoint.setResourceURIRepresentation(MeasuringPoint.PCMRESOURCEURI_EC + externalCallAction.getId());
+            measuringPoint.setMeasuringPointEC(new MeasuringPointEC(externalCallAction.getId()));
+            result.add(measuringPoint);
+        }
+        return result;
+    }
+
+    private static List<Monitor> resolveResources(List<MeasuringPoint> resources, MeasuringPointRepository measuringPointRepository) {
+        List<Monitor> monitors = new ArrayList<>();
+
+        for (MeasuringPoint measuringPoint : resources) {
+            Monitor monitor = new Monitor();
+            monitor.setEntityName(Monitor.ENTITYNAME_AR);
+            monitor.setMeasurementSpecification(new MeasurementSpecification());
+            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
+            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
+            monitor.setMeasuringPoint(new MeasuringPointRef(index));
+            monitor.getMeasuringPoint().setType(MeasuringPointRef.PCMMEASURINGPOINT_AR);
+
+            monitors.add(monitor);
+        }
+        return monitors;
+    }
+
+    private static List<Monitor> resolveUsageScenarios(List<MeasuringPoint> usageScenarios, MeasuringPointRepository measuringPointRepository) {
+        List<Monitor> monitors = new ArrayList<>();
+
+        for (MeasuringPoint measuringPoint : usageScenarios) {
+            Monitor monitor = new Monitor();
+            monitor.setEntityName(Monitor.ENTITYNAME_UC);
+            monitor.setMeasurementSpecification(new MeasurementSpecification());
+            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
+            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
+            monitor.setMeasuringPoint(new MeasuringPointRef(index));
+            monitor.getMeasuringPoint().setType(MeasuringPointRef.PCMMEASURINGPOINT_UC);
+
+            monitors.add(monitor);
         }
 
+        return monitors;
+    }
 
-        return result;
+    private static List<Monitor> resolveExternalCalls(List<MeasuringPoint> externalCalls, MeasuringPointRepository measuringPointRepository) {
+        List<Monitor> monitors = new ArrayList<>();
+
+        for (MeasuringPoint measuringPoint : externalCalls) {
+            Monitor monitor = new Monitor();
+            monitor.setEntityName(Monitor.ENTITYNAME_EC);
+            monitor.setMeasurementSpecification(new MeasurementSpecification());
+            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
+            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
+            monitor.setMeasuringPoint(new MeasuringPointRef(index));
+            monitor.getMeasuringPoint().setType(MeasuringPointRef.PCMMEASURINGPOINT_EC);
+
+            monitors.add(monitor);
+        }
+
+        return monitors;
     }
 
 
