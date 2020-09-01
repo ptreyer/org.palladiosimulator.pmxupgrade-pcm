@@ -119,9 +119,17 @@ public class MeasuringFileExporterService {
         for (MeasuringPoint measuringPoint : resources) {
             Monitor monitor = new Monitor();
             monitor.setEntityName(Monitor.ENTITYNAME_AR);
-            monitor.setMeasurementSpecification(new MeasurementSpecification());
-            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
-            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            MeasurementSpecification measurementSpecificationActiveResource = new MeasurementSpecification();
+            measurementSpecificationActiveResource.setMetricDescription(new MetricDescription(MetricDescription.STATE_OF_ACTIVE_RESOURCE));
+            measurementSpecificationActiveResource.setProcessingType(new ProcessingType());
+
+            MeasurementSpecification measurementSpecificationResourceDemand = new MeasurementSpecification();
+            measurementSpecificationResourceDemand.setMetricDescription(new MetricDescription(MetricDescription.RESOURCE_DEMAND));
+            measurementSpecificationResourceDemand.setProcessingType(new ProcessingType());
+
+            monitor.getMeasurementSpecifications().add(measurementSpecificationActiveResource);
+            monitor.getMeasurementSpecifications().add(measurementSpecificationResourceDemand);
 
             int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
             monitor.setMeasuringPoint(new MeasuringPointRef(index));
@@ -138,9 +146,12 @@ public class MeasuringFileExporterService {
         for (MeasuringPoint measuringPoint : usageScenarios) {
             Monitor monitor = new Monitor();
             monitor.setEntityName(Monitor.ENTITYNAME_UC);
-            monitor.setMeasurementSpecification(new MeasurementSpecification());
-            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
-            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            MeasurementSpecification measurementSpecification = new MeasurementSpecification();
+            measurementSpecification.setMetricDescription(new MetricDescription(MetricDescription.RESPONSE_TIME));
+            measurementSpecification.setProcessingType(new ProcessingType());
+
+            monitor.getMeasurementSpecifications().add(measurementSpecification);
 
             int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
             monitor.setMeasuringPoint(new MeasuringPointRef(index));
@@ -158,9 +169,12 @@ public class MeasuringFileExporterService {
         for (MeasuringPoint measuringPoint : externalCalls) {
             Monitor monitor = new Monitor();
             monitor.setEntityName(Monitor.ENTITYNAME_EC);
-            monitor.setMeasurementSpecification(new MeasurementSpecification());
-            monitor.getMeasurementSpecification().setMetricDescription(new MetricDescription());
-            monitor.getMeasurementSpecification().setProcessingType(new ProcessingType());
+
+            MeasurementSpecification measurementSpecification = new MeasurementSpecification();
+            measurementSpecification.setMetricDescription(new MetricDescription(MetricDescription.RESPONSE_TIME));
+            measurementSpecification.setProcessingType(new ProcessingType());
+
+            monitor.getMeasurementSpecifications().add(measurementSpecification);
 
             int index = measuringPointRepository.getMeasuringPoints().indexOf(measuringPoint);
             monitor.setMeasuringPoint(new MeasuringPointRef(index));
