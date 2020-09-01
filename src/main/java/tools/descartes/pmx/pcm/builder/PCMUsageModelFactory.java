@@ -84,7 +84,7 @@ public class PCMUsageModelFactory {
 				.createUsageScenario();
 		final ScenarioBehaviour scenarioBehaviour = createScenarioBehavior(cmbg);
 		final Workload workload;
-		boolean isOpenWorkload = true;
+		boolean isOpenWorkload = false;
 		if (isOpenWorkload) {
 			workload = createOpenWorkload();
 		} else {

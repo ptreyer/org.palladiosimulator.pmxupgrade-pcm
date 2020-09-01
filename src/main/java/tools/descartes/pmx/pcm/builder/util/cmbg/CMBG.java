@@ -35,7 +35,7 @@ import org.apache.log4j.Logger;
 public class CMBG {
 	private static final Logger log = Logger
 			.getLogger(CMBG.class);
-	int population = 50; 		//TODO
+	int population = 1; 		//TODO
 //	CInteger.parseInt(creatorTools.getThisWorkloadModel()
 //	.getWorkloadIntensity().getFormula())
 	

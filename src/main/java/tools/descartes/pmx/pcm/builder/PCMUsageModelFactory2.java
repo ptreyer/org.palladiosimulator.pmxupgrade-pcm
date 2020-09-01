@@ -42,7 +42,7 @@ public class PCMUsageModelFactory2 {
 
 	public static void createWorkload(HashMap<String, List<Double>> workloadMap, ModelBuilder builder, UsageModel usage,
 			System system) {
-		UsageScenario usageScenario = addUsageScenario(usage, "usageSccenario");
+		UsageScenario usageScenario = addUsageScenario(usage, "usageScenario");
 		ScenarioBehaviour scenarioBehaviour = UsagemodelFactory.eINSTANCE.createScenarioBehaviour();
 
 		HashMap<Double, String> map = new HashMap<Double, String>();
@@ -135,7 +135,7 @@ public class PCMUsageModelFactory2 {
 
 		usageScenario.setScenarioBehaviour_UsageScenario(scenarioBehaviour);
 
-		final OpenWorkload workload = createOpenWorkload(duration / callsMin);
+		final ClosedWorkload workload = createClosedWorkload(10);
 		// TODO should be replay file soon
 		usageScenario.setWorkload_UsageScenario(workload);
 	}
