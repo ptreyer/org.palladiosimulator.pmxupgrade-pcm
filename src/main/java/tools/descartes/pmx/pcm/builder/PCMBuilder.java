@@ -58,12 +58,12 @@ import org.palladiosimulator.pcm.system.SystemFactory;
 import org.palladiosimulator.pcm.usagemodel.UsageModel;
 import org.palladiosimulator.pcm.usagemodel.UsagemodelFactory;
 
-import de.kit.research.logic.modelcreation.builder.IModelBuilder;
-import de.kit.research.logic.modelcreation.builder.ModelBuilder;
-import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
-import de.kit.research.model.systemmodel.component.ComponentType;
-import de.kit.research.model.systemmodel.trace.ExternalCall;
-import de.kit.research.model.systemmodel.util.Signature;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
+import org.palladiosimulator.pmxupgrade.model.systemmodel.component.ComponentType;
+import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
+import org.palladiosimulator.pmxupgrade.model.systemmodel.util.Signature;
 import tools.descartes.pmx.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 import tools.descartes.pmx.pcm.builder.persistance.PCMEMF;
 

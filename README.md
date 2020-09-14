@@ -1,1 +1,1 @@
-# de.kit.research.pmx-pcm
+# org.palladiosimulator.pmxupgrade-pcm

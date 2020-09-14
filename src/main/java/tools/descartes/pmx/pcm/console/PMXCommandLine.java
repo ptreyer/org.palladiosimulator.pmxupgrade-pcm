@@ -49,9 +49,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.SimpleLayout;
 
-import de.kit.research.logic.PMXController;
-import de.kit.research.logic.modelcreation.builder.IModelBuilder;
-import de.kit.research.model.exception.PMXException;
+import org.palladiosimulator.pmxupgrade.logic.PMXController;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
+import org.palladiosimulator.pmxupgrade.model.exception.PMXException;
 import tools.descartes.pmx.pcm.builder.PCMBuilder;
 
 
@@ -93,7 +93,7 @@ public class PMXCommandLine {
 	private PMXController createPMX(String[] args) {
 		try {
 			
-			de.kit.research.model.common.Configuration configuration = new de.kit.research.model.common.Configuration();
+			org.palladiosimulator.pmxupgrade.model.common.Configuration configuration = new org.palladiosimulator.pmxupgrade.model.common.Configuration();
 			
 			//String[] inputDirs = getInputDirs();
 			

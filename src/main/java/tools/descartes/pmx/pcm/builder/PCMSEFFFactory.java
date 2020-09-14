@@ -28,10 +28,6 @@ package tools.descartes.pmx.pcm.builder;
 
 import java.util.List;
 
-import de.kit.research.logic.modelcreation.builder.IModelBuilder;
-import de.kit.research.logic.modelcreation.builder.ModelBuilder;
-import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
-import de.kit.research.model.systemmodel.trace.ExternalCall;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.palladiosimulator.pcm.core.CoreFactory;
@@ -58,6 +54,10 @@ import org.palladiosimulator.pcm.seff.StartAction;
 import org.palladiosimulator.pcm.seff.StopAction;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
+import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
 
 
 public class PCMSEFFFactory {

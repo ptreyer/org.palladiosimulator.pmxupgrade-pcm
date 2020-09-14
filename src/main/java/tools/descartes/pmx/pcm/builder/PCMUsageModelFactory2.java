@@ -32,8 +32,8 @@ import org.palladiosimulator.pcm.usagemodel.UsageModel;
 import org.palladiosimulator.pcm.usagemodel.UsageScenario;
 import org.palladiosimulator.pcm.usagemodel.UsagemodelFactory;
 
-import de.kit.research.logic.modelcreation.builder.ModelBuilder;
-import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
 import tools.descartes.pmx.pcm.builder.util.cmbg.BehaviorModel;
 import tools.descartes.pmx.pcm.builder.util.cmbg.CMBG;
 

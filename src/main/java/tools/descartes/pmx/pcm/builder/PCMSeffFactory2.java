@@ -55,10 +55,10 @@ import org.palladiosimulator.pcm.seff.StopAction;
 import org.palladiosimulator.pcm.seff.seff_performance.ParametricResourceDemand;
 import org.palladiosimulator.pcm.seff.seff_performance.SeffPerformanceFactory;
 
-import de.kit.research.logic.modelcreation.builder.IModelBuilder;
-import de.kit.research.logic.modelcreation.builder.ModelBuilder;
-import de.kit.research.logic.modelcreation.util.ModelCreationUtils;
-import de.kit.research.model.systemmodel.trace.ExternalCall;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
+import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
+import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
 import tools.descartes.pmx.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 
 public class PCMSeffFactory2 {
@@ -66,7 +66,7 @@ public class PCMSeffFactory2 {
 	private static final double DELTA = 1E-9;
 
 	public static ResourceDemandingSEFF createSEFF(IModelBuilder builder, BasicComponent component, Signature signature,
-			List<ExternalCall> externalCalls, ResourceContainer host, double meanResourceDemand) {
+												   List<ExternalCall> externalCalls, ResourceContainer host, double meanResourceDemand) {
 
 		ResourceDemandingSEFF seff = SeffFactory.eINSTANCE.createResourceDemandingSEFF();
 		seff.setBasicComponent_ServiceEffectSpecification(component);

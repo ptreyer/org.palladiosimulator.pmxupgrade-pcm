@@ -132,7 +132,6 @@ public class PCMSaver {
 	/**
 	 * Saves PCM {@link ResourceEnvironment} to file.
 	 * 
-	 * @param resourceEnvironment model
 	 * @param relativePath
 	 */
 	public static void save(UsageModel usagemodel,

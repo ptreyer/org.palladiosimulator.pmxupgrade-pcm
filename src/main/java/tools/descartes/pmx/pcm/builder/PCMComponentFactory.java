@@ -41,14 +41,6 @@ public class PCMComponentFactory {
 		return repository;
 	}
 	
-//	public static boolean isComponentInRepository(String name, Repository repository){
-//		for(RepositoryComponent component :repository.getComponents__Repository()){
-//			if(component.getEntityName().equals(name)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 	public static BasicComponent createComponent(String name,
 			Repository repository) {
 		BasicComponent component = RepositoryFactory.eINSTANCE
