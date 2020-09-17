@@ -32,6 +32,7 @@ public class MeasuringFileExporterService {
     public static void createMeasuringFiles(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment) {
         MeasuringPointRepository measuringPointRepository = new MeasuringPointRepository();
 
+
         List<MeasuringPoint> resources = extractResources(resourceEnvironment);
         List<MeasuringPoint> usageScenarios = extractUsageScenario(usageModel);
         List<MeasuringPoint> externalCalls = extractExternalCalls();
@@ -49,19 +50,18 @@ public class MeasuringFileExporterService {
             JAXBContext jCont = JAXBContext.newInstance(MeasuringPointRepository.class);
             Marshaller marshal = jCont.createMarshaller();
             marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshal.marshal(measuringPointRepository, new File(outputDir + "measuring.measuringpoint"));
+            marshal.marshal(measuringPointRepository, new File(outputDir + "measuring2.measuringpoint"));
 
             JAXBContext jCont2 = JAXBContext.newInstance(MonitorRepository.class);
             Marshaller marshal2 = jCont2.createMarshaller();
             marshal2.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshal2.marshal(monitorRepository, new File(outputDir + "measuring.monitorrepository"));
+            marshal2.marshal(monitorRepository, new File(outputDir + "measuring2.monitorrepository"));
 
         } catch (JAXBException e) {
             e.printStackTrace();
         }
 
     }
-
 
     private static List<MeasuringPoint> extractResources(ResourceEnvironment resourceEnvironment) {
         List<MeasuringPoint> result = new ArrayList<>();
@@ -102,7 +102,7 @@ public class MeasuringFileExporterService {
     private static List<MeasuringPoint> extractExternalCalls() {
         List<MeasuringPoint> result = new ArrayList<>();
 
-        for (ExternalCallAction externalCallAction : externalCallActions) {
+        for (ExternalCallAction externalCallAction : getExternalCallActions()) {
             MeasuringPoint measuringPoint = new MeasuringPoint();
             measuringPoint.setType(MeasuringPoint.PCMMEASURINGPOINT_EC);
             measuringPoint.setStringRepresentation("External Call: " + externalCallAction.getEntityName() + ": " + externalCallAction.getId());
@@ -184,6 +184,13 @@ public class MeasuringFileExporterService {
         }
 
         return monitors;
+    }
+
+    public static List<ExternalCallAction> getExternalCallActions() {
+        if (externalCallActions == null) {
+            externalCallActions = new ArrayList<>();
+        }
+        return externalCallActions;
     }
 
 

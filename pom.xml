@@ -92,14 +92,67 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>javax.measure</groupId>
+            <artifactId>jsr-275</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
 
         <dependency>
-            <groupId>org.palladiosimulator.pcm</groupId>
+            <groupId>org.palladiosimulator</groupId>
             <artifactId>pcm</artifactId>
             <version>4.3.0.202006280807</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.pcm_4.3.0.202006280807.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>measuringpoint</artifactId>
+            <version>4.3.0.202006280807</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.pcm.edp2.measuringpoint_4.3.0.202006280807.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>edp2</artifactId>
+            <version>4.3.0.202006280802</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.edp2_4.3.0.202006280802.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>metricspec</artifactId>
+            <version>4.3.0.202006280755</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.metricspec_4.3.0.202006280755.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>edp2.dao</artifactId>
+            <version>4.3.0.202006280802</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.edp2.dao_4.3.0.202006280802.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>commons</artifactId>
+            <version>4.3.0.202006280751</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.commons_4.3.0.202006280751.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.palladiosimulator</groupId>
+            <artifactId>monitorrepository</artifactId>
+            <version>4.3.0.202006280813</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/org.palladiosimulator.monitorrepository_4.3.0.202006280813.jar
             </systemPath>
         </dependency>
 

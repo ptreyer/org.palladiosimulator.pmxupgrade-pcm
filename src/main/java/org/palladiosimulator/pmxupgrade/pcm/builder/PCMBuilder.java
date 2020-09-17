@@ -63,6 +63,7 @@ import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUt
 import org.palladiosimulator.pmxupgrade.model.systemmodel.component.ComponentType;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.util.Signature;
+import org.palladiosimulator.pmxupgrade.pcm.builder.measuringfiles.exporter.MeasuringFileEMFExporterService;
 import org.palladiosimulator.pmxupgrade.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 import org.palladiosimulator.pmxupgrade.pcm.builder.persistance.PCMEMF;
 
@@ -118,8 +119,8 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
         m.put("repository", new XMIResourceFactoryImpl()); // file ending
         Resource resource;
 
-       // resource = resourceSet.createResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"));
-       // resource = resourceSet.getResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"), true);
+        // resource = resourceSet.createResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"));
+        // resource = resourceSet.getResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"), true);
 
         resource = resourceSet.createResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"));
         resource = resourceSet.getResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"), true);
@@ -306,9 +307,13 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
     }
 
     public void saveToFile(String path) {
+        PCMEMF.saveAll();
+
+        //PCMEMF.createEMFMeasuringFiles(path, usage, resourceenvironment);
+
+        MeasuringFileEMFExporterService.createEMFMeasuringFiles(path, usage, resourceenvironment);
         MeasuringFileExporterService.createMeasuringFiles(path, usage, resourceenvironment);
 
-        PCMEMF.saveAll();
     }
 
     public void saveToFile() {

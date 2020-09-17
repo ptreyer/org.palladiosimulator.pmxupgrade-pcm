@@ -59,6 +59,7 @@ import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder
 import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
 import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
+import org.palladiosimulator.pmxupgrade.pcm.builder.measuringfiles.exporter.MeasuringFileEMFExporterService;
 import org.palladiosimulator.pmxupgrade.pcm.builder.measuringfiles.exporter.MeasuringFileExporterService;
 
 public class PCMSeffFactory2 {
@@ -301,6 +302,7 @@ public class PCMSeffFactory2 {
 
 		// TODo refactor
 		MeasuringFileExporterService.addExternalCall(externalCallAction);
+		MeasuringFileEMFExporterService.addExternalCall(externalCallAction);
 
 		return externalCallAction;
 	}
