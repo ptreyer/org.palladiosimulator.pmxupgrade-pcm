@@ -1,14 +1,11 @@
 package org.palladiosimulator.pmxupgrade.pcm.builder.measuringfiles.exporter;
 
-import org.apache.maven.shared.utils.StringUtils;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.net4j.util.StringUtil;
-import org.palladiosimulator.edp2.models.measuringpoint.MeasuringPoint;
 import org.palladiosimulator.edp2.models.measuringpoint.MeasuringPointRepository;
 import org.palladiosimulator.edp2.models.measuringpoint.MeasuringpointFactory;
 import org.palladiosimulator.metricspec.constants.MetricDescriptionConstants;
@@ -25,6 +22,8 @@ import org.palladiosimulator.pcmmeasuringpoint.ActiveResourceMeasuringPoint;
 import org.palladiosimulator.pcmmeasuringpoint.ExternalCallActionMeasuringPoint;
 import org.palladiosimulator.pcmmeasuringpoint.PcmmeasuringpointFactory;
 import org.palladiosimulator.pcmmeasuringpoint.UsageScenarioMeasuringPoint;
+import org.palladiosimulator.pmxupgrade.model.exception.PMXException;
+import org.palladiosimulator.pmxupgrade.pcm.config.StandaloneSetup;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,14 +48,16 @@ public class MeasuringFileEMFExporterService {
 
     }
 
-    public static void createEMFMeasuringFiles(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment) {
+    public static void createEMFMeasuringFiles(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment) throws PMXException {
         ResourceSet rs = new ResourceSetImpl();
 
+       // StandaloneSetup.init();
+
         createMeasuringPoint(outputDir, usageModel, resourceEnvironment, rs);
-        //creatMonitoringRepository(outputDir, rs);
+        creatMonitoringRepository(outputDir, rs);
     }
 
-    private static void createMeasuringPoint(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment, ResourceSet rs) {
+    private static void createMeasuringPoint(String outputDir, UsageModel usageModel, ResourceEnvironment resourceEnvironment, ResourceSet rs) throws PMXException {
         MeasuringpointFactory measuringpointFactory = MeasuringpointFactory.eINSTANCE;
         MeasuringPointRepository measuringPointRepository = measuringpointFactory.createMeasuringPointRepository();
 
@@ -77,15 +78,14 @@ public class MeasuringFileEMFExporterService {
 
         measuringpointResource.getContents().add(measuringPointRepository);
         try {
-            // TODO URIRepresentation to relative Path
             measuringpointResource.save(Collections.emptyMap());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PMXException("Error extracting measuringpoints.", e);
         }
 
     }
 
-    private static void creatMonitoringRepository(String outputDir, ResourceSet rs) {
+    private static void creatMonitoringRepository(String outputDir, ResourceSet rs) throws PMXException {
         MonitorRepositoryFactory monitorRepositoryFactory = MonitorRepositoryFactory.eINSTANCE;
         org.palladiosimulator.monitorrepository.MonitorRepository monitorRepository = monitorRepositoryFactory.createMonitorRepository();
 
@@ -93,25 +93,26 @@ public class MeasuringFileEMFExporterService {
         monitorRepository.getMonitors().addAll(resolveEMFUsageScenarios(usageScenarioMeasuringPoints));
         monitorRepository.getMonitors().addAll(resolveEMFExternalCalls(externalCallActionMeasuringPoints));
 
-        Resource.Factory.Registry reg2 = Resource.Factory.Registry.INSTANCE;
-        Map<String, Object> m2 = reg2.getExtensionToFactoryMap();
-        m2.put("monitorrepository", new XMIResourceFactoryImpl());
+        Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
+        Map<String, Object> m = reg.getExtensionToFactoryMap();
+        m.put("monitorrepository", new XMIResourceFactoryImpl());
 
-        String relativePath2 = new File(outputDir + "measuring.monitorrepository").toURI().toString();
-        Resource monitorRepositoryResource = rs.createResource(URI.createURI(relativePath2));
+        String relativePath = new File(outputDir + "measuring.monitorrepository").toURI().toString();
+        Resource monitorRepositoryResource = rs.createResource(URI.createURI(relativePath));
 
         monitorRepositoryResource.getContents().add(monitorRepository);
 
         try {
             monitorRepositoryResource.save(Collections.emptyMap());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new PMXException("Error extracting monitorrepository.", e);
         }
     }
 
     private static List<ActiveResourceMeasuringPoint> extractEMFResources(ResourceEnvironment resourceEnvironment) {
         List<ActiveResourceMeasuringPoint> activeResourceMeasuringPoints = new ArrayList<>();
 
+        resourceEnvironment.eResource().setURI(URI.createPlatformResourceURI("extracted.resourceenvironment", true));
         EList<ResourceContainer> resourceContainerList = resourceEnvironment.getResourceContainer_ResourceEnvironment();
         for (ResourceContainer resourceContainer : resourceContainerList) {
             EList<ProcessingResourceSpecification> prs = resourceContainer.getActiveResourceSpecifications_ResourceContainer();
@@ -128,8 +129,8 @@ public class MeasuringFileEMFExporterService {
     private static List<UsageScenarioMeasuringPoint> extractEMFUsageScenario(UsageModel usageModel) {
         List<UsageScenarioMeasuringPoint> usageScenarioMeasuringPoints = new ArrayList<>();
 
+        usageModel.eResource().setURI(URI.createPlatformResourceURI("extracted.usagemodel", true));
         EList<UsageScenario> usageScenarios = usageModel.getUsageScenario_UsageModel();
-
         for (UsageScenario usageScenario : usageScenarios) {
             UsageScenarioMeasuringPoint usageScenarioMeasuringPoint = PcmmeasuringpointFactory.eINSTANCE.createUsageScenarioMeasuringPoint();
             usageScenarioMeasuringPoint.setUsageScenario(usageScenario);
@@ -142,6 +143,7 @@ public class MeasuringFileEMFExporterService {
         List<ExternalCallActionMeasuringPoint> externalCallActionMeasuringPoints = new ArrayList<>();
 
         for (ExternalCallAction externalCallAction : getExternalCallActions()) {
+            //externalCallAction.eResource().setURI(URI.createPlatformResourceURI("extracted.repository", true));
             ExternalCallActionMeasuringPoint externalCallActionMeasuringPoint = PcmmeasuringpointFactory.eINSTANCE.createExternalCallActionMeasuringPoint();
             externalCallActionMeasuringPoint.setExternalCall(externalCallAction);
             externalCallActionMeasuringPoints.add(externalCallActionMeasuringPoint);
@@ -158,17 +160,19 @@ public class MeasuringFileEMFExporterService {
 
             MeasurementSpecification measurementSpecification1 = MonitorRepositoryFactory.eINSTANCE.createMeasurementSpecification();
             // TODO
-            measurementSpecification1.setMetricDescription(MetricDescriptionConstants.RESOURCE_DEMAND_METRIC);
-            measurementSpecification1.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
+
+
+            //measurementSpecification1.setMetricDescription(MetricDescriptionConstants.RESOURCE_DEMAND_METRIC);
+            //measurementSpecification1.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
 
             MeasurementSpecification measurementSpecification2 = MonitorRepositoryFactory.eINSTANCE.createMeasurementSpecification();
             // TODO
-            measurementSpecification2.setMetricDescription(MetricDescriptionConstants.STATE_OF_ACTIVE_RESOURCE_METRIC);
-            measurementSpecification2.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
+            //measurementSpecification2.setMetricDescription(MetricDescriptionConstants.STATE_OF_ACTIVE_RESOURCE_METRIC);
+            //measurementSpecification2.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
 
             monitor.setMeasuringPoint(measuringPoint);
             monitor.getMeasurementSpecifications().add(measurementSpecification1);
-            monitor.getMeasurementSpecifications().add(measurementSpecification2);
+            //monitor.getMeasurementSpecifications().add(measurementSpecification2);
             monitors.add(monitor);
         }
         return monitors;
@@ -184,11 +188,11 @@ public class MeasuringFileEMFExporterService {
 
             MeasurementSpecification measurementSpecification = MonitorRepositoryFactory.eINSTANCE.createMeasurementSpecification();
             // TODO
-            measurementSpecification.setMetricDescription(MetricDescriptionConstants.RESPONSE_TIME_METRIC);
-            measurementSpecification.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
+            //measurementSpecification.setMetricDescription(MetricDescriptionConstants.RESPONSE_TIME_METRIC);
+            //measurementSpecification.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
 
             monitor.setMeasuringPoint(measuringPoint);
-            monitor.getMeasurementSpecifications().add(measurementSpecification);
+            //monitor.getMeasurementSpecifications().add(measurementSpecification);
             monitors.add(monitor);
         }
         return monitors;
@@ -203,11 +207,11 @@ public class MeasuringFileEMFExporterService {
 
             MeasurementSpecification measurementSpecification = MonitorRepositoryFactory.eINSTANCE.createMeasurementSpecification();
             // TODO
-            measurementSpecification.setMetricDescription(MetricDescriptionConstants.RESPONSE_TIME_METRIC);
-            measurementSpecification.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
+            //measurementSpecification.setMetricDescription(MetricDescriptionConstants.RESPONSE_TIME_METRIC);
+            //measurementSpecification.setProcessingType(MonitorRepositoryFactory.eINSTANCE.createFeedThrough());
 
             monitor.setMeasuringPoint(measuringPoint);
-            monitor.getMeasurementSpecifications().add(measurementSpecification);
+            //monitor.getMeasurementSpecifications().add(measurementSpecification);
             monitors.add(monitor);
         }
 

@@ -27,6 +27,7 @@
 package org.palladiosimulator.pmxupgrade.pcm.console;
 
 import org.apache.log4j.BasicConfigurator;
+import org.palladiosimulator.pmxupgrade.pcm.config.StandaloneSetup;
 
 public class PMXCommandLinePCM extends PMXCommandLine {
 
@@ -36,7 +37,12 @@ public class PMXCommandLinePCM extends PMXCommandLine {
 
 	public static void execute(String[] args) {
 		BasicConfigurator.configure();
+
+		StandaloneSetup.init();
+
 		run(args);
+
+
 	}
 
 }

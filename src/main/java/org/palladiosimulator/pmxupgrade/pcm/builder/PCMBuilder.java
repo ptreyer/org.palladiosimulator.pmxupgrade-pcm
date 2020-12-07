@@ -60,6 +60,7 @@ import org.palladiosimulator.pcm.usagemodel.UsagemodelFactory;
 import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.IModelBuilder;
 import org.palladiosimulator.pmxupgrade.logic.modelcreation.builder.ModelBuilder;
 import org.palladiosimulator.pmxupgrade.logic.modelcreation.util.ModelCreationUtils;
+import org.palladiosimulator.pmxupgrade.model.exception.PMXException;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.component.ComponentType;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.trace.ExternalCall;
 import org.palladiosimulator.pmxupgrade.model.systemmodel.util.Signature;
@@ -119,8 +120,8 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
         m.put("repository", new XMIResourceFactoryImpl()); // file ending
         Resource resource;
 
-        // resource = resourceSet.createResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"));
-        // resource = resourceSet.getResource(URI.createURI("/pathmap://PCM_MODELS/PrimitiveTypes.repository"), true);
+        //resource = resourceSet.createResource(URI.createURI("pathmap://PCM_MODELS/PrimitiveTypes.repository"));
+        //resource = resourceSet.getResource(URI.createURI("pathmap://PCM_MODELS/PrimitiveTypes.repository"), true);
 
         resource = resourceSet.createResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"));
         resource = resourceSet.getResource(URI.createFileURI("src/main/resources/PrimitiveTypes.repository"), true);
@@ -154,6 +155,9 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
         m.put("resourcetype", new XMIResourceFactoryImpl()); // file ending
 
         Resource resource;
+
+        //resource = resourceSet.createResource(URI.createURI("pathmap://PCM_MODELS/Palladio.resourcetype"));
+        //resource = resourceSet.getResource(URI.createURI("pathmap://PCM_MODELS/Palladio.resourcetype"), true);
 
         resource = resourceSet.createResource(URI.createFileURI("src/main/resources/Palladio.resourcetype"));
         resource = resourceSet.getResource(URI.createFileURI("src/main/resources/Palladio.resourcetype"), true);
@@ -311,8 +315,13 @@ public class PCMBuilder extends ModelBuilder implements IModelBuilder {
 
         //PCMEMF.createEMFMeasuringFiles(path, usage, resourceenvironment);
 
-        MeasuringFileEMFExporterService.createEMFMeasuringFiles(path, usage, resourceenvironment);
-        MeasuringFileExporterService.createMeasuringFiles(path, usage, resourceenvironment);
+        //try {
+            // TODO
+            //MeasuringFileEMFExporterService.createEMFMeasuringFiles(path, usage, resourceenvironment);
+            MeasuringFileExporterService.createMeasuringFiles(path, usage, resourceenvironment);
+        //} catch (PMXException e) {
+        //    e.printStackTrace();
+        //}
 
     }
 
